@@ -19,20 +19,10 @@ Protect multiple apps across subdomains by a single login screen in nginx
 127.0.0.1       auth.hub.test
 ```
 
-2. Copy server blocks for auth and serviceone from nginx.conf and reload
+2. Run containers
 
 ```BASH
-brew services restart nginx && nginx -t 
-
- OR
-
-sudo service nginx restart && nginx -t
+docker-compose up
 ```
 
-3. Run both auth (mainHub) and serviceone in separate terminals
-```BASH
-npm i
-npm run start
-```
-
-4. Access http://serviceone.hub.test
+3. Access <http://serviceone.hub.test>
