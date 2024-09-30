@@ -10,6 +10,7 @@ app.use(express.urlencoded())
 const { port, appName, serviceOne } = config;
 
 app.use((req, res, next) => {
+  console.log(`${appName} route hit`)
   next();
 })
 
@@ -17,6 +18,10 @@ nunjucks.configure('views', {
   autoescape: true,
   express: app
 });
+
+app.get('/', (req, res) => {
+  return res.send(`<h1>${appName} Auth</h1>`)
+})
 
 app.get('/login', (req, res) => {
   console.log(`GET /login on Auth Server - ${new Date()}`);

@@ -7,8 +7,6 @@ services:
     volumes: 
       - ./mainHub:/mainHub
       - /mainHub/node_modules
-    ports:
-      - "3000:3000"
     restart: always
     networks:
       - hub_network
@@ -19,22 +17,19 @@ services:
     volumes: 
       - ./serviceOne:/serviceOne
       - /serviceOne/node_modules
-    ports:
-      - "3001:3001"
     restart: always
     networks:
       - hub_network
 
   nginx:
-    image: nginx:1-alpine
     restart: always
+    build:
+      context: ./nginx
     ports:
-      - 80:80
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - hub-main
-      - hub-serviceone
+      - "80:80"   
+    networks:
+      - hub_network
 
 networks:
   hub_network:
+    driver: bridge
