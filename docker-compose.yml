@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  hub-main:
+    build: ./mainHub
+    container_name: hub-main
+    volumes: 
+      - ./mainHub:/mainHub
+      - /mainHub/node_modules
+    ports:
+      - "3000:3000"
+    restart: always
+    networks:
+      - hub_network
+
+  hub-serviceone: 
+    build: ./serviceOne
+    container_name: hub-serviceone
+    volumes: 
+      - ./serviceOne:/serviceOne
+      - /serviceOne/node_modules
+    ports:
+      - "3001:3001"
+    restart: always
+    networks:
+      - hub_network
+
+  nginx:
+    image: nginx:1-alpine
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - hub-main
+      - hub-serviceone
+
+networks:
+  hub_network:
